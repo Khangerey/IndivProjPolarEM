@@ -1,0 +1,187 @@
+import serial
+import numpy as np
+import time
+import matplotlib.pyplot as plt
+
+#import matplotlib.pyplot as plt
+import time
+
+init = "water V2  null2"
+init_msg = init + "\n"
+current_time = time.strftime("%H_%M_%S")
+file_name = current_time + ".txt"
+f = open(file_name, "x")
+f.write(init_msg)
+f.close()
+
+cnt = 0
+
+serialPort = serial.Serial(
+    port="COM10", baudrate=115200, bytesize=8, timeout=2, stopbits=serial.STOPBITS_ONE
+)
+serialString = ""  # Used to hold data coming over UART
+
+serialPort.flushInput()
+
+pf = 0
+x = 0
+y = 0
+y2 = 0
+DC = 0
+xdat = []
+ydat = []
+
+#plt.ion()
+
+
+#figure, ax = plt.subplots()
+#line1, = ax.plot(xdat,ydat, 'o')
+#ax.set_xlim(0, 10)
+#ax.set_ylim(0, 4)
+        
+while 1:
+    # Read data out of the buffer until a carraige return / new line is found
+    
+    serialString = serialPort.readline()
+    s = serialString.decode("ASCII")
+    
+    """
+    if "HZ" in s:
+        s_med = s.rstrip(" HZ \n")
+        pf = float(s_med)
+    elif "p " in s:
+        s_med = s.rstrip(" p \n")
+        y = float(s_med)    
+    elif "d" in s:
+        s_med = s.rstrip(" d \n")
+        x = float(s_med)
+    elif "DC" in s:
+        s_med = s.rstrip(" DC \n")
+        DC = float(s_med)
+    elif "p2" in s:
+        s_med = s.rstrip(" p2 \n")
+        y2 = float(s_med)
+        
+    serialPort.flushInput()
+    
+    serialString = serialPort.readline()
+    s = serialString.decode("ASCII")
+    if "HZ" in s:
+        s_med = s.rstrip(" HZ \n")
+        pf = float(s_med)
+    elif "p " in s:
+        s_med = s.rstrip(" p \n")
+        y = float(s_med)    
+    elif "d" in s:
+        s_med = s.rstrip(" d \n")
+        x = float(s_med)
+    elif "DC" in s:
+        s_med = s.rstrip(" DC \n")
+        DC = float(s_med)
+    elif "p2" in s:
+        s_med = s.rstrip(" p2 \n")
+        y2 = float(s_med)
+    
+    serialPort.flushInput()
+    
+    serialString = serialPort.readline()
+    s = serialString.decode("ASCII")
+    if "HZ" in s:
+        s_med = s.rstrip(" HZ \n")
+        pf = float(s_med)
+    elif "p " in s:
+        s_med = s.rstrip(" p \n")
+        y = float(s_med)    
+    elif "d" in s:
+        s_med = s.rstrip(" d \n")
+        x = float(s_med)
+    elif "DC" in s:
+        s_med = s.rstrip(" DC \n")
+        DC = float(s_med)
+    elif "p2" in s:
+        s_med = s.rstrip(" p2 \n")
+        y2 = float(s_med)
+        
+    serialPort.flushInput()
+    
+    serialString = serialPort.readline()
+    s = serialString.decode("ASCII")
+    if "HZ" in s:
+        s_med = s.rstrip(" HZ \n")
+        pf = float(s_med)
+    elif "p " in s:
+        s_med = s.rstrip(" p \n")
+        y = float(s_med)    
+    elif "d" in s:
+        s_med = s.rstrip(" d \n")
+        x = float(s_med)
+    elif "DC" in s:
+        s_med = s.rstrip(" DC \n")
+        DC = float(s_med)
+    elif "p2" in s:
+        s_med = s.rstrip(" p2 \n")
+        y2 = float(s_med)
+        
+    serialPort.flushInput()
+    
+    serialString = serialPort.readline()
+    s = serialString.decode("ASCII")
+    if "HZ" in s:
+        s_med = s.rstrip(" HZ \n")
+        pf = float(s_med)
+    elif "p " in s:
+        s_med = s.rstrip(" p \n")
+        y = float(s_med)    
+    elif "d" in s:
+        s_med = s.rstrip(" d \n")
+        x = float(s_med)
+    elif "DC" in s:
+        s_med = s.rstrip(" DC \n")
+        DC = float(s_med)
+    elif "p2" in s:
+        s_med = s.rstrip(" p2 \n")
+        y2 = float(s_med)
+    """
+    """
+    
+    if "d" in s:
+        s_med = s.rstrip(" d \n")
+        x = float(s_med)
+    if "p" in s:
+        s_med = s.rstrip(" p \n")
+        y = float(s_med)
+        
+    """
+    
+    
+    xdat.append(x)
+    ydat.append(y)
+    
+    # setting title
+    #plt.title("Phase vs Distance", fontsize=20)
+
+    # setting x-axis label and y-axis label
+    #plt.xlabel("Distance (cm)")
+    #plt.ylabel("Phase (rad)")
+        
+    #line1.set_xdata(xdat)
+    #line1.set_ydata(ydat)
+
+    # drawing updated values
+    #figure.canvas.draw()
+ 
+    # This will run the GUI event
+    # loop until all UI events
+    # currently waiting have been processed
+   # figure.canvas.flush_events()
+    
+    # Print the contents of the serial data
+    try:
+        #print("distance: ",x, "cm, phase ", y, "rads, phase 2 = ", y2, "rads, DC = ", DC, "V, peak freq = ", pf, " Hz")
+        fl = open(file_name, "a")
+        fl.write(s)
+        fl.close()
+        print(s)
+        
+    except:
+        pass
